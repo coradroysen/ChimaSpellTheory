@@ -4,5 +4,6 @@
 ## Notes: Additional information for spells and abilities
 ## Author: Chimaya
 
-ChimaTheory.lua
 ChimaTheory.xml
+ChimaTheory.lua
+data/dataPriest.lua

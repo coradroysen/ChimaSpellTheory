@@ -1,56 +1,60 @@
-local TimeSinceLastUpdate = 0
+local timeSinceLastUpdate = 0
 
 function UpdateValues(self, elapsed)
-  TimeSinceLastUpdate = TimeSinceLastUpdate + elapsed
+  timeSinceLastUpdate = timeSinceLastUpdate + elapsed
 
-  if TimeSinceLastUpdate > .05 then
-    TimeSinceLastUpdate = 0
+  if timeSinceLastUpdate > .5 then
+    timeSinceLastUpdate = 0
 
-    for i = 1, 12 do
-      -- ActionBar
-      local actionID = ActionButton_GetPagedID(_G["ActionButton" .. i])
-      if HasAction(actionID) then
-        local actionType, id, subType = GetActionInfo(actionID);
-        _G["actionBarValue" .. i]:SetText(id)
-      else
-        _G["actionBarValue" .. i]:SetText("")
-      end
+    SetButtonText("ActionButton", "actionBarValue")
+    SetButtonText("MultiBarBottomLeftButton", "multiBarBottomLeftActionBarValue")
+    SetButtonText("MultiBarBottomRightButton", "multiBarBottomRightActionBarValue")
+    SetButtonText("MultiBarLeftButton", "multiBarLeftActionBarValue")
+    SetButtonText("MultiBarRightButton", "multiBarRightActionBarValue")
+  end
+end
 
-      -- MultiBarBottomLeft
-      local multiBarBottomLeftActionID = ActionButton_GetPagedID(_G["MultiBarBottomLeftButton" .. i])
-      if HasAction(multiBarBottomLeftActionID) then
-        local actionType, id, subType = GetActionInfo(multiBarBottomLeftActionID);
-        _G["multiBarBottomLeftActionBarValue" .. i]:SetText(id)
-      else
-        _G["multiBarBottomLeftActionBarValue" .. i]:SetText("")
-      end
+function SetButtonText(buttonType, valueType)
+  for i = 1, 12 do
+    local actionID = ActionButton_GetPagedID(_G[buttonType .. i])
+    if HasAction(actionID) then
+      local actionType, id, subType = GetActionInfo(actionID);
+      local buttonText = DetermineButtonValue(id)
+      _G[valueType .. i]:SetText(buttonText)
+    else
+      _G[valueType .. i]:SetText("")
+    end
+  end
+end
 
-      -- MultiBarBottomRight
-      local multiBarBottomRightActionID = ActionButton_GetPagedID(_G["MultiBarBottomRightButton" .. i])
-      if HasAction(multiBarBottomRightActionID) then
-        local actionType, id, subType = GetActionInfo(multiBarBottomRightActionID);
-        _G["multiBarBottomRightActionBarValue" .. i]:SetText(id)
-      else
-        _G["multiBarBottomRightActionBarValue" .. i]:SetText("")
-      end
+function DetermineButtonValue(spellID)
+  if _G["spellData" .. playerClass][spellID] ~= nil then
+    local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(id)
+    local valueHeal = 0
+    local valueHot = 0
+    local valueDmg = 0
+    local valueDot = 0
 
-      -- MultiBarLeft
-      local multiBarLeftActionID = ActionButton_GetPagedID(_G["MultiBarLeftButton" .. i])
-      if HasAction(multiBarLeftActionID) then
-        local actionType, id, subType = GetActionInfo(multiBarLeftActionID);
-        _G["multiBarLeftActionBarValue" .. i]:SetText(id)
-      else
-        _G["multiBarLeftActionBarValue" .. i]:SetText("")
-      end
+    if _G["spellData" .. playerClass][spellID].isHeal then
+      valueHeal = (_G["spellData" .. playerClass][spellID].minHealV + _G["spellData" .. playerClass][spellID].maxHealV) / 2
+    end
 
-      -- MultiBarRight
-      local multiBarRightActionID = ActionButton_GetPagedID(_G["MultiBarRightButton" .. i])
-      if HasAction(multiBarRightActionID) then
-        local actionType, id, subType = GetActionInfo(multiBarRightActionID);
-        _G["multiBarRightActionBarValue" .. i]:SetText(id)
-      else
-        _G["multiBarRightActionBarValue" .. i]:SetText("")
-      end
+    if _G["spellData" .. playerClass][spellID].isHot or _G["spellData" .. playerClass][spellID].isChanHeal then
+      valueHot = _G["spellData" .. playerClass][spellID].fullHealV
+    end
+
+    if _G["spellData" .. playerClass][spellID].isDmg then
+      valueDmg = (_G["spellData" .. playerClass][spellID].minDmgV + _G["spellData" .. playerClass][spellID].maxDmgV) / 2
+    end
+
+    if _G["spellData" .. playerClass][spellID].isDot or _G["spellData" .. playerClass][spellID].isChanDmg then
+      valueDot = _G["spellData" .. playerClass][spellID].fullDmgV
+    end
+
+    if (valueHeal + valueHot) ~= 0 then
+      return math.floor(valueHeal + valueHot);
+    else
+      return math.floor(valueDmg + valueDot);
     end
   end
 end
@@ -98,24 +102,11 @@ end
 
 function ChimaTheory_OnEvent(self, event, ...)
   if event == "ADDON_LOADED" and ... == "ChimaTheory" then
-    self:UnregisterEvent("ADDON_LOADED")
+    self:UnregisterEvent("ADDON_LOADED");
+
+    local localizedClass, englishClass, classIndex = UnitClass("player");
+    _G["playerClass"] = englishClass
     CreateValues();
-    theoryFrame:SetScript("OnUpdate", UpdateValues)
-	end
-end
-
-
-function reportActionButtons()
-	local lActionSlot = 0;
-	for lActionSlot = 1, 120 do
-		local lActionText = GetActionText(lActionSlot);
-		local lActionTexture = GetActionTexture(lActionSlot);
-		if lActionTexture then
-			local lMessage = "Slot " .. lActionSlot .. ": [" .. lActionTexture .. "]";
-			if lActionText then
-				lMessage = lMessage .. " \"" .. lActionText .. "\"";
-			end
-			DEFAULT_CHAT_FRAME:AddMessage(lMessage);
-		end
+    theoryFrame:SetScript("OnUpdate", UpdateValues);
 	end
 end
