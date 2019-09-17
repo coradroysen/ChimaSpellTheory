@@ -1,0 +1,8 @@
+## Interface: 11302
+## Title: ChimaTheory
+## Version: 1.0
+## Notes: Additional information for spells and abilities
+## Author: Chimaya
+
+ChimaTheory.lua
+ChimaTheory.xml
