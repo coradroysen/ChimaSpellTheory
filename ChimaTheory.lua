@@ -36,19 +36,29 @@ function DetermineButtonValue(spellID)
     local valueDot = 0
 
     if _G["spellData" .. playerClass][spellID].isHeal then
-      valueHeal = (_G["spellData" .. playerClass][spellID].minHealV + _G["spellData" .. playerClass][spellID].maxHealV) / 2
+      local bonusHeal = GetSpellBonusHealing() * _G["spellData" .. playerClass][spellID].instantCoeff
+      local baseHeal = (_G["spellData" .. playerClass][spellID].minHealV + _G["spellData" .. playerClass][spellID].maxHealV) / 2
+      valueHeal = baseHeal + bonusHeal
     end
 
     if _G["spellData" .. playerClass][spellID].isHot or _G["spellData" .. playerClass][spellID].isChanHeal then
-      valueHot = _G["spellData" .. playerClass][spellID].fullHealV
+      local bonusHeal = GetSpellBonusHealing() * _G["spellData" .. playerClass][spellID].overTimeCoeff
+      local baseHeal = _G["spellData" .. playerClass][spellID].fullHealV
+      valueHot = baseHeal + bonusHeal
     end
 
     if _G["spellData" .. playerClass][spellID].isDmg then
-      valueDmg = (_G["spellData" .. playerClass][spellID].minDmgV + _G["spellData" .. playerClass][spellID].maxDmgV) / 2
+
+    local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType);
+      local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].instantCoeff
+      local baseDmg = (_G["spellData" .. playerClass][spellID].minDmgV + _G["spellData" .. playerClass][spellID].maxDmgV) / 2
+      valueDmg = baseDmg + bonusDmg
     end
 
     if _G["spellData" .. playerClass][spellID].isDot or _G["spellData" .. playerClass][spellID].isChanDmg then
-      valueDot = _G["spellData" .. playerClass][spellID].fullDmgV
+      local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].overTimeCoeff
+      local baseDmg = _G["spellData" .. playerClass][spellID].fullDmgV
+      valueDot = baseDmg + bonusDmg
     end
 
     if (valueHeal + valueHot) ~= 0 then
