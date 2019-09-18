@@ -13,28 +13,28 @@ function CalculateDmgHealValue(spellID)
     if _G["spellData" .. playerClass][spellID].isHeal then
       local bonusHeal = GetSpellBonusHealing() * _G["spellData" .. playerClass][spellID].instantCoeff
       local baseHeal = (_G["spellData" .. playerClass][spellID].minHealV + _G["spellData" .. playerClass][spellID].maxHealV) / 2
-      valueHeal = baseHeal + bonusHeal
+      valueHeal = _G["AddTalentValue" .. playerClass](spellID, baseHeal + bonusHeal, heal)
     end
 
-    -- heal (overTime or channeled)
+    -- hot (overTime or channeled)
     if _G["spellData" .. playerClass][spellID].isHot or _G["spellData" .. playerClass][spellID].isChanHeal then
       local bonusHeal = GetSpellBonusHealing() * _G["spellData" .. playerClass][spellID].overTimeCoeff
       local baseHeal = _G["spellData" .. playerClass][spellID].fullHealV
-      valueHot = baseHeal + bonusHeal
+      valueHot = _G["AddTalentValue" .. playerClass](spellID, baseHeal + bonusHeal, hot)
     end
 
     -- dmg (instant)
     if _G["spellData" .. playerClass][spellID].isDmg then
       local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].instantCoeff
       local baseDmg = (_G["spellData" .. playerClass][spellID].minDmgV + _G["spellData" .. playerClass][spellID].maxDmgV) / 2
-      valueDmg = baseDmg + bonusDmg
+      valueDmg = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, dmg)
     end
 
-    -- dmg (overTime or channeled)
+    -- dot (overTime or channeled)
     if _G["spellData" .. playerClass][spellID].isDot or _G["spellData" .. playerClass][spellID].isChanDmg then
       local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].overTimeCoeff
       local baseDmg = _G["spellData" .. playerClass][spellID].fullDmgV
-      valueDot = baseDmg + bonusDmg
+      valueDot = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, dot)
     end
 
     return math.floor(valueHeal + valueHot), math.floor(valueDmg + valueDot)
@@ -58,4 +58,10 @@ function CalculateDmgPerMana(spellID)
   if costs ~= 0 then dpm = math.floor(valueDmg / costs * 100) / 100 else dpm = "n/a" end
 
   return dpm
+end
+
+
+function GetTalentPoints(tab, index)
+  local name, iconPath, tier, column, currentRank, maxRank, isExceptional, meetsPrereq = GetTalentInfo(tab, index)
+  return currentRank
 end

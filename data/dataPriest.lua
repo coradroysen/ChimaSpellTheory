@@ -8,7 +8,7 @@
 
 --  [8129] = { name="Name", rank=1, isDmg=false, isDot=false, isChanDmg=false, isDmgAE=false, isHeal=false, isHot=false, isChanHeal=false, isHealAE=false, minDmgV=0, maxDmgV=0, fullDmgV=0, minHealV=0, maxHealV=0, fullHealV=0, duration=0, maxTargets=1, dmgType="" },
 
-
+-- spell base values
 spellDataPRIEST = {
   -- Discipline
   [8129] = { name="Mana Burn", rank=1, isDmg=true, minDmgV=99, maxDmgV=105.5, dmgType=6, instantCoeff=0 },
@@ -144,3 +144,59 @@ spellDataPRIEST = {
   [17314] = { name="Mind Flay", rank=5, isChanDmg=true, fullDmgV=330, duration=3, dmgType=6, overTimeCoeff=0.45 },
   [18807] = { name="Mind Flay", rank=6, isChanDmg=true, fullDmgV=426, duration=3, dmgType=6, overTimeCoeff=0.45 },
 }
+
+-- valueType: heal | hot | dmg | dot
+function AddTalentValuePRIEST(spellID, value, valueType)
+  local newValue = value
+
+  if spellDataPRIEST[spellID].name == "Power Word: Shield" then
+    newValue = value + value * (0.05 * GetTalentPoints(1, 5)) -- Improved Power Word: Shield
+  end
+
+  if spellDataPRIEST[spellID].name == "Renew" then
+    newValue = value + value * (0.05 * GetTalentPoints(2, 2)) -- Improved Renew
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Desperate Prayer" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Flash Heal" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Heal" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Holy Nova" and valueType == heal then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Lesser Heal" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Greater Heal" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Prayer of Healing" then
+    newValue = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+  end
+
+  if spellDataPRIEST[spellID].name == "Smite" then
+    newValue = value + value * (0.05 * GetTalentPoints(2, 11)) -- Searing Light
+  end
+
+  if spellDataPRIEST[spellID].name == "Holy Fire" then
+    newValue = value + value * (0.05 * GetTalentPoints(2, 11)) -- Searing Light
+  end
+
+  if spellDataPRIEST[spellID].name == "Shadow Word: Pain" then
+    newValue = value + value * (0.1666 * GetTalentPoints(3, 4)) -- Improved Shadow Word: Pain
+  end
+
+  return newValue
+end
