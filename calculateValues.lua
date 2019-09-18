@@ -19,23 +19,30 @@ function CalculateDmgHealValue(spellID)
     -- hot (overTime or channeled)
     if _G["spellData" .. playerClass][spellID].isHot or _G["spellData" .. playerClass][spellID].isChanHeal then
       local bonusHeal = GetSpellBonusHealing() * _G["spellData" .. playerClass][spellID].overTimeCoeff
-      local baseHeal = _G["spellData" .. playerClass][spellID].fullHealV
+      local baseHeal = _G["spellData" .. playerClass][spellID].hotV
       valueHot = _G["AddTalentValue" .. playerClass](spellID, baseHeal + bonusHeal, hot)
     end
 
-    -- dmg (instant)
-    if _G["spellData" .. playerClass][spellID].isDmg then
+    -- castDmg (instant)
+    if _G["spellData" .. playerClass][spellID].isCastDmg then
       local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].instantCoeff
       local baseDmg = (_G["spellData" .. playerClass][spellID].minDmgV + _G["spellData" .. playerClass][spellID].maxDmgV) / 2
-      valueDmg = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, dmg)
+      valueDmg = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, castDmg)
     end
 
-    -- dot (overTime or channeled)
+    -- castDot (overTime or channeled)
     if _G["spellData" .. playerClass][spellID].isDot or _G["spellData" .. playerClass][spellID].isChanDmg then
       local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].overTimeCoeff
-      local baseDmg = _G["spellData" .. playerClass][spellID].fullDmgV
-      valueDot = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, dot)
+      local baseDmg = _G["spellData" .. playerClass][spellID].dotV
+      valueDot = _G["AddTalentValue" .. playerClass](spellID, baseDmg + bonusDmg, castDot)
     end
+
+    -- meleeDmg (instant)
+    -- if _G["spellData" .. playerClass][spellID].isMeleeDmg then
+      -- local bonusDmg = GetSpellBonusDamage(_G["spellData" .. playerClass][spellID].dmgType) * _G["spellData" .. playerClass][spellID].instantCoeff
+      -- local baseDmg = _G["spellData" .. playerClass][spellID].dmgV
+      -- valueDmg = _G["AddTalentValue" .. playerClass](spellID, baseDmg, meleeDmg)
+    -- end
 
     return math.floor(valueHeal + valueHot), math.floor(valueDmg + valueDot)
   end
