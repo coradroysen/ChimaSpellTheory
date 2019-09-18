@@ -6,4 +6,15 @@
 
 ChimaTheory.xml
 ChimaTheory.lua
+
+calculateValues.lua
+
 data/dataPriest.lua
+data/dataMage.lua
+data/dataWarlock.lua
+data/dataRogue.lua
+data/dataDruid.lua
+data/dataHunter.lua
+data/dataShaman.lua
+data/dataWarrior.lua
+data/dataPaladin.lua

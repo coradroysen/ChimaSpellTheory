@@ -1,3 +1,14 @@
 
 data/._dataPriest.lua
 ._ChimaTheory.lua
+._calculateValues.lua
+._ChimaTheory.toc
+._ChimaTheory.xml
+data/._dataDruid.lua
+data/._dataHunter.lua
+data/._dataMage.lua
+data/._dataPaladin.lua
+data/._dataRogue.lua
+data/._dataShaman.lua
+data/._dataWarlock.lua
+data/._dataWarrior.lua
