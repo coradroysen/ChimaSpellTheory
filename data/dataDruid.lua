@@ -27,7 +27,7 @@
 
 -- spell base values
 spellDataDRUID = {
-  -- Balance
+  -- BALANCE
   [5176] = { name="Wrath", rank=1, isCastDmg=true, minDmgV=13, maxDmgV=16, dmgType=4, instantCoeff=0.123 },
   [5177] = { name="Wrath", rank=2, isCastDmg=true, minDmgV=28, maxDmgV=33, dmgType=4, instantCoeff=0.231 },
   [5178] = { name="Wrath", rank=3, isCastDmg=true, minDmgV=48, maxDmgV=57, dmgType=4, instantCoeff=0.443 },
@@ -67,7 +67,8 @@ spellDataDRUID = {
   [17401] = { name="Hurricane", rank=2, isChanDmg=true, isDmgAE=true, dotV=102, duration=10, maxTargets=5, dmgType=4, overTimeCoeff=0.316 },
   [17402] = { name="Hurricane", rank=3, isChanDmg=true, isDmgAE=true, dotV=134, duration=10, maxTargets=5, dmgType=4, overTimeCoeff=0.316 },
 
-  -- Feral Combat
+
+  -- FERAL COMBAT
   -- [6807] = { name="Maul", rank=1, isMeleeDmg=true, dmgV=18, dmgType=1, instantCoeff=1 },
   -- [6808] = { name="Maul", rank=2, isMeleeDmg=true, dmgV=27, dmgType=1, instantCoeff=1 },
   -- [6809] = { name="Maul", rank=3, isMeleeDmg=true, dmgV=37, dmgType=1, instantCoeff=1 },
@@ -96,7 +97,8 @@ spellDataDRUID = {
 
   -- [Pounce]
 
-  -- Restoration
+
+  -- RESTORATION
   [5185] = { name="Healing Touch", rank=1, isHeal=true, minHealV=40, maxHealV=55, instantCoeff=0.123 },
   [5186] = { name="Healing Touch", rank=2, isHeal=true, minHealV=94, maxHealV=119, instantCoeff=0.314 },
   [5187] = { name="Healing Touch", rank=3, isHeal=true, minHealV=204, maxHealV=253, instantCoeff=0.554 },
@@ -147,13 +149,13 @@ spellDataDRUID = {
 
 -- adds damage and healing value based on talents
 function AddTalentValueDRUID(spellID, value, valueType)
-
-  if spellDataDRUID[spellID].name == "Moonfire" then
-    value = value + value * (0.02 * GetTalentPoints(1, 5)) -- Improved Moonfire
+  -- BALANCE
+  if spellDataDRUID[spellID].name == "Wrath" then
     value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
   end
 
-  if spellDataDRUID[spellID].name == "Wrath" then
+  if spellDataDRUID[spellID].name == "Moonfire" then
+    value = value + value * (0.02 * GetTalentPoints(1, 5)) -- Improved Moonfire
     value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
   end
 
@@ -161,6 +163,8 @@ function AddTalentValueDRUID(spellID, value, valueType)
     value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
   end
 
+
+  -- RESTORATION
   if spellDataDRUID[spellID].name == "Healing Touch" then
     value = value + value * (0.02 * GetTalentPoints(3, 12)) -- Gift of Nature
   end
