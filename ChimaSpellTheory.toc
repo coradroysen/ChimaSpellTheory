@@ -1,13 +1,13 @@
 ## Interface: 11302
-## Title: ChimaTheory
-## Version: 1.0
+## Title: ChimaSpellTheory
+## Version: 0.0
 ## Notes: Additional information for spells and abilities
 ## Author: Chimaya
 
-ChimaTheory.xml
-ChimaTheory.lua
+ChimaSpellTheory.xml
+ChimaSpellTheory.lua
 
-calculateValues.lua
+ChimaSpellTheory_CalculateValues.lua
 
 data/dataPriest.lua
 data/dataMage.lua

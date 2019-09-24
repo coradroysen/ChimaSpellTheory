@@ -1,29 +1,20 @@
--- local timeSinceLastUpdate = 0
-local currentTooltipID = 0
-
 -- updates all values
-function UpdateValues(self, elapsed)
-  -- timeSinceLastUpdate = timeSinceLastUpdate + elapsed
-
-  -- buffer (only recalculate every X seconds)
-  -- if timeSinceLastUpdate > .1 then
-    -- timeSinceLastUpdate = 0
-
+function ChimaSpellTheory_UpdateValues(self, elapsed)
     -- set button texts for each action bar
-    SetButtonText("Action")
-    SetButtonText("MultiBarBottomLeft")
-    SetButtonText("MultiBarBottomRight")
-    SetButtonText("MultiBarLeft")
-    SetButtonText("MultiBarRight")
+    ChimaSpellTheory_SetButtonText("Action")
+    ChimaSpellTheory_SetButtonText("MultiBarBottomLeft")
+    ChimaSpellTheory_SetButtonText("MultiBarBottomRight")
+    ChimaSpellTheory_SetButtonText("MultiBarLeft")
+    ChimaSpellTheory_SetButtonText("MultiBarRight")
 
     -- set tooltip text extension
-    if not CheckTooltipStatus() then SetTooltipText() end
+    if not ChimaSpellTheory_CheckTooltipStatus() then ChimaSpellTheory_SetTooltipText() end
   -- end
 end
 
 -- assigns text to the 12 action buttons of a specific action bar
 -- expects action bar name
-function SetButtonText(actionBar)
+function ChimaSpellTheory_SetButtonText(actionBar)
   for i = 1, 12 do
     -- get slotID for current(i) button on the referenced action bar (considers pages, stances, etc.)
     local actionID = ActionButton_GetPagedID(_G[actionBar .. "Button" .. i])
@@ -32,7 +23,7 @@ function SetButtonText(actionBar)
     if HasAction(actionID) then
       local actionType, id, subType = GetActionInfo(actionID);
       if _G["spellData" .. playerClass][id] ~= nil then
-        local valueHeal, valueDmg = CalculateDmgHealValue(id)
+        local valueHeal, valueDmg = ChimaSpellTheory_CalculateDmgHealValue(id)
 
         if valueHeal ~= 0 then
           _G[actionBar .. "Value" .. i]:SetText(valueHeal)
@@ -50,36 +41,33 @@ function SetButtonText(actionBar)
   end
 end
 
-function SetTooltipText()
+function ChimaSpellTheory_SetTooltipText()
   local spellName, spellID = GameTooltip:GetSpell();
 
   -- extend tooltip
   if _G["spellData" .. playerClass][spellID] ~= nil then
-    GameTooltip:AddLine("   ") -- IMPORTANT! required for CheckTooltipStatus()
+    GameTooltip:AddLine("   ") -- IMPORTANT! required for ChimaSpellTheory_CheckTooltipStatus()
 
     local name, rank, icon, castTime, minRange, maxRange, spellId = GetSpellInfo(spellID)
-    local valueHeal, valueDmg = CalculateDmgHealValue(spellID)
+    local valueHeal, valueDmg = ChimaSpellTheory_CalculateDmgHealValue(spellID)
     local costs = GetSpellPowerCost(spellID)
 
     if valueHeal ~= 0 then
       GameTooltip:AddDoubleLine("Average Healing", valueHeal, 1, 0.82, 0, 1, 1, 1)
-      GameTooltip:AddDoubleLine("Healing per Mana", CalculateHealPerMana(spellID), 1, 0.82, 0, 1, 1, 1)
+      GameTooltip:AddDoubleLine("Healing per Mana", ChimaSpellTheory_CalculateHealPerMana(spellID), 1, 0.82, 0, 1, 1, 1)
     end
 
     if valueDmg ~= 0 then
       GameTooltip:AddDoubleLine("Average Damage", valueDmg, 1, 0.82, 0, 1, 1, 1)
-      GameTooltip:AddDoubleLine("Damage per Mana", CalculateDmgPerMana(spellID), 1, 0.82, 0, 1, 1, 1)
+      GameTooltip:AddDoubleLine("Damage per Mana", ChimaSpellTheory_CalculateDmgPerMana(spellID), 1, 0.82, 0, 1, 1, 1)
     end
 
     GameTooltip:Show()
-
-    -- mark current spellID as done (only extend tooltip information once per show)
-    currentTooltipID = spellID
   end
 end
 
 -- checks whether the data extension was already added to the tooltip
-function CheckTooltipStatus()
+function ChimaSpellTheory_CheckTooltipStatus()
   local check = false
   for i = 1, GameTooltip:NumLines() do
     if _G["GameTooltipTextLeft" .. i]:GetText() == "   " then check = true end
@@ -92,12 +80,12 @@ end
 
 -- creates initial text fields on each action button
 -- only get's called once when addon is loaded
-function CreateValues(self, elapsed)
+function ChimaSpellTheory_CreateValues()
   for i = 1, 12 do
     _G["ActionButton" .. i]:CreateFontString("ActionValue" .. i, "ARTWORK", nil)
     _G["ActionValue" .. i]:SetPoint("CENTER", 0, -11)
     _G["ActionValue" .. i]:SetFont("Fonts\\ARIALN.TTF", 10, "THICKOUTLINE")
-    _G["ActionValue" .. i]:SetText("")
+    _G["ActionValue" .. i]:SetText("Test")
     _G["ActionValue" .. i]:Show()
 
     _G["MultiBarBottomLeftButton" .. i]:CreateFontString("MultiBarBottomLeftValue" .. i, "ARTWORK", nil)
@@ -129,24 +117,24 @@ end
 
 
 -- registers to load event
-function ChimaTheory_OnLoad(self, event, ...)
+function ChimaSpellTheory_OnLoad(self, event, ...)
   self:RegisterEvent("ADDON_LOADED")
 end
 
 -- initiates addon
 -- only get's called once when addon is loaded
-function ChimaTheory_OnEvent(self, event, ...)
-  if event == "ADDON_LOADED" and ... == "ChimaTheory" then
+function ChimaSpellTheory_OnEvent(self, event, ...)
+  if event == "ADDON_LOADED" and ... == "ChimaSpellTheory" then
     self:UnregisterEvent("ADDON_LOADED");
 
     -- determine current class
     local localizedClass, englishClass, classIndex = UnitClass("player");
-    _G["playerClass"] = englishClass
+    _G["playerClass"] = englishClass;
 
     -- create text fields on action buttons
-    CreateValues();
+    ChimaSpellTheory_CreateValues();
 
-    -- initiate update loop, UpdateValues gets called indefinitely for each frame
-    theoryFrame:SetScript("OnUpdate", UpdateValues);
+    -- initiate update loop, ChimaSpellTheory_UpdateValues gets called indefinitely for each frame
+    spellTheoryFrame:SetScript("OnUpdate", ChimaSpellTheory_UpdateValues);
 	end
 end

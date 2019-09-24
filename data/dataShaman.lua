@@ -4,7 +4,7 @@ spellDataSHAMAN = {
 
 
 
-function AddTalentValueSHAMAN(spellID, value, valueType)
+function ChimaSpellTheory_AddTalentValueSHAMAN(spellID, value, valueType)
   local newValue = value
   return newValue
 end

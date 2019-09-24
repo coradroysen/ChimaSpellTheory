@@ -12,3 +12,7 @@ data/._dataRogue.lua
 data/._dataShaman.lua
 data/._dataWarlock.lua
 data/._dataWarrior.lua
+._ChimaSpellTheory.lua
+._ChimaSpellTheory.toc
+._ChimaSpellTheory.xml
+._ChimaSpellTheory_CalculateValues.lua

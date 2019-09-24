@@ -148,38 +148,38 @@ spellDataDRUID = {
 
 
 -- adds damage and healing value based on talents
-function AddTalentValueDRUID(spellID, value, valueType)
+function ChimaSpellTheory_AddTalentValueDRUID(spellID, value, valueType)
   -- BALANCE
   if spellDataDRUID[spellID].name == "Wrath" then
-    value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(1, 15)) -- Moonfury
   end
 
   if spellDataDRUID[spellID].name == "Moonfire" then
-    value = value + value * (0.02 * GetTalentPoints(1, 5)) -- Improved Moonfire
-    value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(1, 5)) -- Improved Moonfire
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(1, 15)) -- Moonfury
   end
 
   if spellDataDRUID[spellID].name == "Starfire" then
-    value = value + value * (0.02 * GetTalentPoints(1, 15)) -- Moonfury
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(1, 15)) -- Moonfury
   end
 
 
   -- RESTORATION
   if spellDataDRUID[spellID].name == "Healing Touch" then
-    value = value + value * (0.02 * GetTalentPoints(3, 12)) -- Gift of Nature
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 12)) -- Gift of Nature
   end
 
   if spellDataDRUID[spellID].name == "Rejuvenation" then
-    value = value + value * (0.05 * GetTalentPoints(3, 10)) -- Improved Rejuvenation
-    value = value + value * (0.02 * GetTalentPoints(3, 12)) -- Gift of Nature
+    value = value + value * (0.05 * ChimaSpellTheory_GetTalentPoints(3, 10)) -- Improved Rejuvenation
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 12)) -- Gift of Nature
   end
 
   if spellDataDRUID[spellID].name == "Regrowth" then
-    value = value + value * (0.02 * GetTalentPoints(3, 12)) -- Gift of Nature
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 12)) -- Gift of Nature
   end
 
   if spellDataDRUID[spellID].name == "Tranquility" then
-    value = value + value * (0.02 * GetTalentPoints(3, 12)) -- Gift of Nature
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 12)) -- Gift of Nature
   end
 
   return value

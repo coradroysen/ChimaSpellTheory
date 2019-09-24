@@ -167,59 +167,59 @@ spellDataPRIEST = {
 
 
 -- adds damage and healing value based on talents
-function AddTalentValuePRIEST(spellID, value, valueType)
+function ChimaSpellTheory_AddTalentValuePRIEST(spellID, value, valueType)
   -- DISCIPLINE
   if spellDataPRIEST[spellID].name == "Power Word: Shield" then
-    value = value + value * (0.05 * GetTalentPoints(1, 5)) -- Improved Power Word: Shield
+    value = value + value * (0.05 * ChimaSpellTheory_GetTalentPoints(1, 5)) -- Improved Power Word: Shield
   end
 
 
   -- HOLY
   if spellDataPRIEST[spellID].name == "Smite" then
-    value = value + value * (0.05 * GetTalentPoints(2, 11)) -- Searing Light
+    value = value + value * (0.05 * ChimaSpellTheory_GetTalentPoints(2, 11)) -- Searing Light
   end
 
   if spellDataPRIEST[spellID].name == "Lesser Heal" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Renew" then
-    value = value + value * (0.05 * GetTalentPoints(2, 2)) -- Improved Renew
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.05 * ChimaSpellTheory_GetTalentPoints(2, 2)) -- Improved Renew
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Desperate Prayer" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Heal" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Holy Fire" then
-    value = value + value * (0.05 * GetTalentPoints(2, 11)) -- Searing Light
+    value = value + value * (0.05 * ChimaSpellTheory_GetTalentPoints(2, 11)) -- Searing Light
   end
 
   if spellDataPRIEST[spellID].name == "Flash Heal" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Holy Nova" and valueType == heal then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Prayer of Healing" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
   if spellDataPRIEST[spellID].name == "Greater Heal" then
-    value = value + value * (0.02 * GetTalentPoints(2, 15)) -- Spiritual Healing
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Spiritual Healing
   end
 
 
   -- SHADOW
   if spellDataPRIEST[spellID].name == "Shadow Word: Pain" then
-    value = value + value * (0.1666 * GetTalentPoints(3, 4)) -- Improved Shadow Word: Pain
+    value = value + value * (0.1666 * ChimaSpellTheory_GetTalentPoints(3, 4)) -- Improved Shadow Word: Pain
   end
 
   return value
