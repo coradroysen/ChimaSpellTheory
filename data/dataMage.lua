@@ -91,6 +91,12 @@ spellDataMAGE = {
   [10206] = { name="Scorch", rank=6, isCastDmg=true, minDmgV=207, maxDmgV=247, dmgType=3, instantCoeff=0.429 },
   [10207] = { name="Scorch", rank=7, isCastDmg=true, minDmgV=237, maxDmgV=280, dmgType=3, instantCoeff=0.429 },
 
+  [11113] = { name="Blast Wave", rank=1, isCastDmg=true, isCastDmgAE=true, minDmgV=160, maxDmgV=192, maxTargets=5, dmgType=3, instantCoeff=0.129 },
+  [13018] = { name="Blast Wave", rank=2, isCastDmg=true, isCastDmgAE=true, minDmgV=208, maxDmgV=249, maxTargets=5, dmgType=3, instantCoeff=0.129 },
+  [13019] = { name="Blast Wave", rank=3, isCastDmg=true, isCastDmgAE=true, minDmgV=285, maxDmgV=338, maxTargets=5, dmgType=3, instantCoeff=0.129 },
+  [13020] = { name="Blast Wave", rank=4, isCastDmg=true, isCastDmgAE=true, minDmgV=374, maxDmgV=443, maxTargets=5, dmgType=3, instantCoeff=0.129 },
+  [13021] = { name="Blast Wave", rank=5, isCastDmg=true, isCastDmgAE=true, minDmgV=462, maxDmgV=544, maxTargets=5, dmgType=3, instantCoeff=0.129 },
+
   -- FROST
   [116] = { name="Frostbolt", rank=1, isCastDmg=true, minDmgV=20, maxDmgV=22, dmgType=5, instantCoeff=0.163 },
   [205] = { name="Frostbolt", rank=2, isCastDmg=true, minDmgV=33, maxDmgV=38, dmgType=5, instantCoeff=0.269 },
@@ -116,7 +122,11 @@ spellDataMAGE = {
   [10186] = { name="Blizzard", rank=5, isChanDmg=true, isDmgAE=true, dotV=936, duration=8, maxTargets=5, dmgType=5, overTimeCoeff=0.336 },
   [10187] = { name="Blizzard", rank=6, isChanDmg=true, isDmgAE=true, dotV=1192, duration=8, maxTargets=5, dmgType=5, overTimeCoeff=0.336 },
 
-  -- [Cone of Cold]
+  [120] = { name="Cone of Cold", rank=1, isCastDmg=true, isCastDmgAE=true, minDmgV=102, maxDmgV=112, maxTargets=5, dmgType=5, instantCoeff=0.129 },
+  [8492] = { name="Cone of Cold", rank=2, isCastDmg=true, isCastDmgAE=true, minDmgV=151, maxDmgV=165, maxTargets=5, dmgType=5, instantCoeff=0.129 },
+  [10159] = { name="Cone of Cold", rank=3, isCastDmg=true, isCastDmgAE=true, minDmgV=209, maxDmgV=229, maxTargets=5, dmgType=5, instantCoeff=0.129 },
+  [10160] = { name="Cone of Cold", rank=4, isCastDmg=true, isCastDmgAE=true, minDmgV=270, maxDmgV=297, maxTargets=5, dmgType=5, instantCoeff=0.129 },
+  [10161] = { name="Cone of Cold", rank=5, isCastDmg=true, isCastDmgAE=true, minDmgV=338, maxDmgV=368, maxTargets=5, dmgType=5, instantCoeff=0.129 },
 }
 
 
@@ -124,11 +134,55 @@ spellDataMAGE = {
 -- adds damage and healing value based on talents
 function ChimaSpellTheory_AddTalentValueMAGE(spellID, value, valueType)
   -- ARCANE
+  -- Arcane Power active = 30% more damage
 
 
   -- FIRE
+  if spellDataMAGE[spellID].name == "Fireball" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
+
+  if spellDataMAGE[spellID].name == "Fire Blast" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
+
+  if spellDataMAGE[spellID].name == "Flamestrike" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
+
+  if spellDataMAGE[spellID].name == "Pyroblast" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
+
+  if spellDataMAGE[spellID].name == "Scorch" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
+
+  if spellDataMAGE[spellID].name == "Blast Wave" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(2, 15)) -- Fire Power
+  end
 
 
   -- FROST
+  if spellDataMAGE[spellID].name == "Frostbolt" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 8)) -- Piercing Ice
+  end
+
+  if spellDataMAGE[spellID].name == "Frost Nova" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 8)) -- Piercing Ice
+  end
+
+  if spellDataMAGE[spellID].name == "Blizzard" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 8)) -- Piercing Ice
+  end
+
+  if spellDataMAGE[spellID].name == "Cone of Cold" then
+    value = value + value * (0.02 * ChimaSpellTheory_GetTalentPoints(3, 8)) -- Piercing Ice
+  end
+
+  if spellDataMAGE[spellID].name == "Cone of Cold" then
+    value = value + value * (0.05 + (0.1 * ChimaSpellTheory_GetTalentPoints(3, 15))) -- Improved Cone of Cold
+  end
+
   return value
 end
